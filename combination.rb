@@ -1,7 +1,9 @@
 class Combination
 
-  def initialize
-
+  def initialize(player_cards:, desk_cards:)
+    @cards = []
+    player_cards.each {|card| @cards<<card}
+    desk_cards.each {|card| @cards<<card}
   end
 
   def win_combination
