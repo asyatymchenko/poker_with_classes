@@ -1,3 +1,4 @@
+require_relative 'card'
 class Combination
 
   def initialize(player_cards:, desk_cards:)
@@ -27,6 +28,9 @@ class Combination
   end
 
   def flush
+    if checksuit.max >= 5
+      puts "true"
+    end
     return true
   end
 
@@ -50,18 +54,26 @@ class Combination
     return true
   end
 
-  def checksuit(cards)
-    suit_counter=Array.new(1)
-    cards.sort_by { |card| card.suit }
-    cards.each_with_index { |card, index| index == 0 || card[index].suit == card[index-1].suit ? suit_counter[index] += 1 : suit_counter<<1 }
-    suit_counter
+  def checksuit
+    suit_counter = Array.new(1,0)
+    suit_iterate = 0
+    max_sequence_of_cards = []
+    sorted_cards = @cards.sort_by { |card| card.suit }
+    sorted_cards.each_with_index { |card, index| index == 0 || card.suit == sorted_cards[index-1].suit ? suit_counter[suit_iterate] += 1 : suit_counter[suit_iterate+=1] = 1 }
+    suit_iterate = 0
+    (0...suit_counter.index(suit_counter.max)).to_a.each {|x| suit_iterate += suit_counter[x]}
+    i = suit_iterate
+    while i < (suit_iterate + suit_counter.max)
+      max_sequence_of_cards << sorted_cards[i]
+      i += 1
+    end
   end
 
   def checksequence(cards)
     cards = cards.uniq
     cards.sort_by { |card| card.mark }
     resultarr =[]
-    cards.each_with_index { |card,index | index == 0 || card[index] == card[index-1]+1 ? resultarr.push(card): resultarr=[]}
+    cards.each_with_index { |card,index | index == 0 || card[index] == card[index-1] + 1 ? resultarr << card : resultarr=[]}
     resultarr
   end
 
