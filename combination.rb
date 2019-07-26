@@ -20,12 +20,11 @@ class Combination
     return 'three_of_a_kind' if three_of_a_kind
     return 'two_pair' if two_pair
     return 'pair' if pair
-    high_card
+    'high_card'
   end
 
   def print_win_combination
     puts "Combination: #{win_combination}"
-
   end
 
   def royal_flush
@@ -42,7 +41,6 @@ class Combination
   end
 
   def full_house
-    #@sequenced_by_rank_cards[@sequenced_by_rank_cards.key(3)] == 3 && @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(2)] == 2
     three_of_a_kind && count_pair >= 1
   end
 
@@ -66,18 +64,17 @@ class Combination
     count_pair == 1
   end
 
-  def count_pair
+  def count_pair # returns number of pairs in combination
     counter = 0
     @sequenced_by_rank_cards.each {|k,v| counter+=1 if v == 2}
     counter
   end
 
-  def high_card
-    puts "high card"
+  #def high_card
    #Card.print_card(@sequenced_by_mark_cards.max_by {|card| card.mark})
-  end
+  #end
 
-  def check_suit
+  def check_suit # returns largest array filled by cards with same suit
     @sequenced_by_suit_cards ||=  begin
                                   suit_counter = Array.new(1,0)
                                   iterator = 0
@@ -90,7 +87,7 @@ class Combination
 
   end
 
-  def check_mark
+  def check_mark # returns largest array filled by cards with same mark
     @sequenced_by_mark_cards ||=  begin
                                   marks_counter = Array.new(1,0)
                                   iterator = 0
@@ -103,7 +100,7 @@ class Combination
 
   end
 
-  def check_rank
+  def check_rank # returns hash filled by cards with same mark and their frequency
     @sequenced_by_rank_cards ||=  begin
                                   repeat_counter = Array.new(1,0)
                                   iterator = 0
@@ -119,19 +116,19 @@ class Combination
     end
   end
 
-  def clean_from_repetitions(cards)
+  def clean_from_repetitions(cards) # returns array filled by cards with unique marks
     result = []
     cards.each_with_index {|card, index| result << card if index.zero? || card.mark != cards[index-1].mark }
     result
   end
 
-  def sort_card_by_marks(cards)
-    sorted_cards = cards.uniq
+  def sort_card_by_marks(cards) # returns array with cards sorted by marks
+    sorted_cards = cards
     sorted_cards = sorted_cards.sort_by { |card| card.mark }.reverse
     sorted_cards
   end
 
-  def fill_result_array(counter, cards)
+  def fill_result_array(counter, cards) # returns array with cards that fits specific condition
     iterator = 0
     result_array = []
 
@@ -143,5 +140,4 @@ class Combination
     end
     result_array
   end
-
 end
