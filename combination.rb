@@ -38,7 +38,6 @@ class Combination
   end
 
   def four_of_a_kind
-     #@sequenced_by_rank_cards[@sequenced_by_rank_cards.key(4)] == 4
      @sequenced_by_rank_cards.has_value?(4)
   end
 
@@ -55,19 +54,22 @@ class Combination
   end
 
   def three_of_a_kind
-    # @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(3)] == 3
      @sequenced_by_rank_cards.has_value?(3)
   end
 
   def two_pair
-    #@sequenced_by_rank_cards[@sequenced_by_rank_cards.key(2)] == 2 &&
+    count_pair >= 2
   end
 
   def pair
-    #@sequenced_by_rank_cards[@sequenced_by_rank_cards.key(2)] == 2
-    @sequenced_by_rank_cards.has_value?(2)
+    count_pair == 1
   end
 
+  def count_pair
+    counter = 0
+    @sequenced_by_rank_cards.each {|k,v| counter+=1 if v == 2}
+    counter
+  end
   def high_card
    Card.print_card(@sequenced_by_mark_cards.max_by {|card| card.mark})
   end

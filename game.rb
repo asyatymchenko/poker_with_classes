@@ -22,6 +22,7 @@ class Game
     print_cards(@desk_cards)
     puts "player"
     print_cards(@player_cards)
+    @combination.check_rank
   end
 
   def count_iterations(combination_to_find)
