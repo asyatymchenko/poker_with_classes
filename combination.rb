@@ -1,7 +1,7 @@
 require_relative 'card'
 class Combination
 
-  def initialize(player_cards:, desk_cards:)
+  def initialize(player_cards, desk_cards)
     @cards = []
     player_cards.each {|card| @cards<<card}
     desk_cards.each {|card| @cards<<card}
@@ -11,7 +11,6 @@ class Combination
   end
 
   def win_combination
-    print_win_combination(@cards)
     return 'royal_flush' if royal_flush
     return 'straight_flush' if straight_flush
     return 'four_of_a_kind' if four_of_a_kind
@@ -21,10 +20,12 @@ class Combination
     return 'three_of_a_kind' if three_of_a_kind
     return 'two_pair' if two_pair
     return 'pair' if pair
+    high_card
   end
 
-  def print_win_combination(cards)
-    cards.each { |card| Card.print_card(card) }
+  def print_win_combination
+    @cards.each { |card| Card.print_card(card) }
+    puts win_combination
   end
 
   def royal_flush
