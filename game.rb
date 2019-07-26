@@ -8,16 +8,12 @@ class Game
     @desk_cards = []
     player = Player.new
     @player_cards = player.cards_in_hand
-
   end
 
   def play
     fill_desk
     combination = Combination.new(player_cards: @player_cards, desk_cards: @desk_cards)
-    puts combination.check_suit
-    puts "break"
-    puts combination.check_suit
-    #print combination.foo
+    puts combination.win_combination
   end
 
   def count_iterations
