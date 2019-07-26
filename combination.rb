@@ -24,8 +24,8 @@ class Combination
   end
 
   def print_win_combination
-    @cards.each { |card| Card.print_card(card) }
-    puts win_combination
+    puts "Combination: #{win_combination}"
+
   end
 
   def royal_flush
@@ -42,7 +42,8 @@ class Combination
   end
 
   def full_house
-    @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(3)] == 3 && @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(2)] == 2
+    #@sequenced_by_rank_cards[@sequenced_by_rank_cards.key(3)] == 3 && @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(2)] == 2
+    three_of_a_kind && count_pair >= 1
   end
 
   def flush
@@ -70,8 +71,10 @@ class Combination
     @sequenced_by_rank_cards.each {|k,v| counter+=1 if v == 2}
     counter
   end
+
   def high_card
-   Card.print_card(@sequenced_by_mark_cards.max_by {|card| card.mark})
+    puts "high card"
+   #Card.print_card(@sequenced_by_mark_cards.max_by {|card| card.mark})
   end
 
   def check_suit
