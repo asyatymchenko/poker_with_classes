@@ -1,6 +1,7 @@
 require_relative 'card'
 require_relative 'player'
 require_relative 'deck'
+require_relative 'combination'
 class Game
   def initialize
     deck = Deck.new
@@ -11,7 +12,8 @@ class Game
 
   def play
     fill_desk
-
+    combination = Combination.new(player_cards: @player_cards, desk_cards: @desk_cards)
+    combination.check_rank
   end
 
   def fill_desk
@@ -25,3 +27,4 @@ class Game
 end
 
 game = Game.new()
+game.play

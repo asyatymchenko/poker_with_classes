@@ -35,10 +35,8 @@ class Combination
   end
 
   def straight
-    if check_sequence.max >= 5
-      puts "true"
-    end
-    return true
+
+    # puts check_sequence
   end
 
   def three_of_a_kind
@@ -46,6 +44,7 @@ class Combination
   end
 
   def two_pair
+    puts check_rank
     return true
   end
 
@@ -72,17 +71,18 @@ class Combination
       max_sequence_of_cards << sorted_cards[i]
       i += 1
     end
+    max_sequence_of_cards
   end
 
   def check_sequence
     marks_counter = Array.new(1,0)
-    iterator = 0
     max_sequence_of_cards = []
+    iterator = 0
 
     sorted_cards = @cards.uniq
     sorted_cards = sorted_cards.sort_by { |card| card.mark }.reverse
-    sorted_cards.each_with_index { |card,index | index == 0 || card.mark == (sorted_cards[index-1].mark + 1) ? marks_counter[iterator] += 1 : marks_counter[iterator+=1] = 1 }
 
+    sorted_cards.each_with_index { |card,index | index == 0 || card.mark == (sorted_cards[index-1].mark - 1) ? marks_counter[iterator] += 1 : marks_counter[iterator+=1] = 1 }
     iterator = 0
     (0...marks_counter.index(marks_counter.max)).to_a.each {|x| iterator += marks_counter[x]}
     i = iterator
@@ -93,13 +93,16 @@ class Combination
     max_sequence_of_cards
   end
 
-  def check_rank(cards)
-    repeat_counter = Array.new(1)
-    if (cards.uniq).size == cards.size
-      return false
-    else
-      cards.each_with_index { |card, index | index == 0 || card[index].rank == card[index-1].rank ? repeat_counter[index] += 1 : repeat_counter << 1}
-    end
+  def check_rank
+    repeat_counter = Array.new(1,0)
+    max_cards_same_rank =[]
+    iterator = 0
+
+    sorted_cards = @cards.uniq
+    sorted_cards = sorted_cards.sort_by { |card| card.mark }.reverse
+
+    sorted_cards.each_with_index { |card, index | index == 0 || card.mark == sorted_cards[index-1].mark ? repeat_counter[iterator] += 1 : repeat_counter[iterator+=1] = 1}
+
     repeat_counter
   end
 end
