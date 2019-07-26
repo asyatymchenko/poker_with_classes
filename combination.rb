@@ -36,7 +36,7 @@ class Combination
 
   def straight
 
-    # puts check_sequence
+    puts check_sequence
   end
 
   def three_of_a_kind
@@ -59,38 +59,33 @@ class Combination
   def check_suit
     suit_counter = Array.new(1,0)
     iterator = 0
-    max_sequence_of_cards = []
 
     sorted_cards = @cards.sort_by { |card| card.suit }
     sorted_cards.each_with_index { |card, index| index == 0 || card.suit == sorted_cards[index-1].suit ? suit_counter[iterator] += 1 : suit_counter[iterator+=1] = 1 }
 
-    iterator = 0
-    (0...suit_counter.index(suit_counter.max)).to_a.each {|x| iterator += suit_counter[x]}
-    i = iterator
-    while i < (iterator + suit_counter.max)
-      max_sequence_of_cards << sorted_cards[i]
-      i += 1
-    end
-    max_sequence_of_cards
+    fill_result_array(suit_counter,sorted_cards)
   end
 
   def check_sequence
     marks_counter = Array.new(1,0)
-    max_sequence_of_cards = []
     iterator = 0
 
-    sorted_cards = @cards.uniq
-    sorted_cards = sorted_cards.sort_by { |card| card.mark }.reverse
-
+    sorted_cards = sort_card_by_marks
     sorted_cards.each_with_index { |card,index | index == 0 || card.mark == (sorted_cards[index-1].mark - 1) ? marks_counter[iterator] += 1 : marks_counter[iterator+=1] = 1 }
+    fill_result_array(marks_counter,sorted_cards)
+  end
+
+  def fill_result_array(counter, cards)
     iterator = 0
-    (0...marks_counter.index(marks_counter.max)).to_a.each {|x| iterator += marks_counter[x]}
+    result_array = []
+
+    (0...counter.index(counter.max)).to_a.each {|x| iterator += counter[x]}
     i = iterator
-    while i < (iterator + marks_counter.max)
-      max_sequence_of_cards << sorted_cards[i]
+    while i < (iterator + counter.max)
+      result_array << cards[i]
       i += 1
     end
-    max_sequence_of_cards
+    result_array
   end
 
   def check_rank
@@ -98,11 +93,15 @@ class Combination
     max_cards_same_rank =[]
     iterator = 0
 
-    sorted_cards = @cards.uniq
-    sorted_cards = sorted_cards.sort_by { |card| card.mark }.reverse
-
+    sorted_cards = sort_card_by_marks
     sorted_cards.each_with_index { |card, index | index == 0 || card.mark == sorted_cards[index-1].mark ? repeat_counter[iterator] += 1 : repeat_counter[iterator+=1] = 1}
 
     repeat_counter
+  end
+
+  def sort_card_by_marks
+    sorted_cards = @cards.uniq
+    sorted_cards = sorted_cards.sort_by { |card| card.mark }.reverse
+    sorted_cards
   end
 end
