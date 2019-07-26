@@ -48,4 +48,4 @@ end
 
 game = Game.new
 game.play
-game.count_iterations('pair')
+#game.count_iterations('pair')

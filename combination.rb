@@ -38,7 +38,8 @@ class Combination
   end
 
   def four_of_a_kind
-     @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(4)] == 4
+     #@sequenced_by_rank_cards[@sequenced_by_rank_cards.key(4)] == 4
+     @sequenced_by_rank_cards.has_value?(4)
   end
 
   def full_house
@@ -54,7 +55,8 @@ class Combination
   end
 
   def three_of_a_kind
-     @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(3)] == 3
+    # @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(3)] == 3
+     @sequenced_by_rank_cards.has_value?(3)
   end
 
   def two_pair
@@ -62,7 +64,8 @@ class Combination
   end
 
   def pair
-    @sequenced_by_rank_cards[@sequenced_by_rank_cards.key(2)] == 2
+    #@sequenced_by_rank_cards[@sequenced_by_rank_cards.key(2)] == 2
+    @sequenced_by_rank_cards.has_value?(2)
   end
 
   def high_card
