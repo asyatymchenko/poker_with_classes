@@ -28,9 +28,7 @@ class Combination
   end
 
   def flush
-    #if checksuit.max >= 5
-     # puts "true"
-    #end
+
     return true
   end
 
@@ -53,26 +51,49 @@ class Combination
   end
 
   def high_card
-    return true
+    true
   end
 
   def check_suit
-    suit_counter = Array.new(1,0)
-    iterator = 0
+    @sequenced_by_suit_cards ||=  begin
+                                  suit_counter = Array.new(1,0)
+                                  iterator = 0
 
-    sorted_cards = @cards.sort_by { |card| card.suit }
-    sorted_cards.each_with_index { |card, index| index == 0 || card.suit == sorted_cards[index-1].suit ? suit_counter[iterator] += 1 : suit_counter[iterator+=1] = 1 }
+                                  sorted_cards = @cards.sort_by { |card| card.suit }
+                                  sorted_cards.each_with_index { |card, index| index.zero? || card.suit == sorted_cards[index-1].suit ? suit_counter[iterator] += 1 : suit_counter[iterator+=1] = 1 }
 
-    fill_result_array(suit_counter,sorted_cards)
+                                  fill_result_array(suit_counter,sorted_cards)
+                                  end
+
   end
 
   def check_sequence
-    marks_counter = Array.new(1,0)
+    @sequenced_by_mark_cards ||=  begin
+                                  marks_counter = Array.new(1,0)
+                                  iterator = 0
+
+                                  sorted_cards = sort_card_by_marks
+                                  sorted_cards.each_with_index { |card,index | index.zero? || card.mark == (sorted_cards[index-1].mark - 1) ? marks_counter[iterator] += 1 : marks_counter[iterator+=1] = 1 }
+
+                                  fill_result_array(marks_counter,sorted_cards)
+                                  end
+
+  end
+
+  def check_rank
+    repeat_counter = Array.new(1,0)
     iterator = 0
 
     sorted_cards = sort_card_by_marks
-    sorted_cards.each_with_index { |card,index | index == 0 || card.mark == (sorted_cards[index-1].mark - 1) ? marks_counter[iterator] += 1 : marks_counter[iterator+=1] = 1 }
-    fill_result_array(marks_counter,sorted_cards)
+    sorted_cards.each_with_index { |card, index | index.zero? || card.mark == sorted_cards[index-1].mark ? repeat_counter[iterator] += 1 : repeat_counter[iterator+=1] = 1}
+
+    repeat_counter
+  end
+
+  def sort_card_by_marks
+    sorted_cards = @cards.uniq
+    sorted_cards = sorted_cards.sort_by { |card| card.mark }.reverse
+    sorted_cards
   end
 
   def fill_result_array(counter, cards)
@@ -88,20 +109,10 @@ class Combination
     result_array
   end
 
-  def check_rank
-    repeat_counter = Array.new(1,0)
-    max_cards_same_rank =[]
-    iterator = 0
-
-    sorted_cards = sort_card_by_marks
-    sorted_cards.each_with_index { |card, index | index == 0 || card.mark == sorted_cards[index-1].mark ? repeat_counter[iterator] += 1 : repeat_counter[iterator+=1] = 1}
-
-    repeat_counter
-  end
-
-  def sort_card_by_marks
-    sorted_cards = @cards.uniq
-    sorted_cards = sorted_cards.sort_by { |card| card.mark }.reverse
-    sorted_cards
+  def foo
+    @foo ||= begin
+      puts "hit"
+      222
+    end
   end
 end

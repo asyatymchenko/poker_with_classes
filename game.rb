@@ -4,16 +4,24 @@ require_relative 'deck'
 require_relative 'combination'
 class Game
   def initialize
-    deck = Deck.new
-    player = Player.new
+    @deck_cards = Deck.new
     @desk_cards = []
+    player = Player.new
     @player_cards = player.cards_in_hand
+
   end
 
   def play
     fill_desk
     combination = Combination.new(player_cards: @player_cards, desk_cards: @desk_cards)
-    combination.check_rank
+    puts combination.check_suit
+    puts "break"
+    puts combination.check_suit
+    #print combination.foo
+  end
+
+  def count_iterations
+    @deck_cards.new_deck
   end
 
   def fill_desk
