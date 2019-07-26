@@ -18,6 +18,10 @@ class Game
 
   def play
     puts @combination.print_win_combination
+    puts "desk"
+    print_cards(@desk_cards)
+    puts "player"
+    print_cards(@player_cards)
   end
 
   def count_iterations(combination_to_find)
@@ -37,12 +41,11 @@ class Game
     5.times{@desk_cards<<Deck.give_card}
   end
 
-  def print_desk
-    puts 'Desk cards:'
-    @desk_cards.each {|card| Card.print_card(card) }
+  def print_cards(cards)
+    cards.each {|card| Card.print_card(card) }
   end
 end
 
 game = Game.new
-#game.play
+game.play
 game.count_iterations('pair')
